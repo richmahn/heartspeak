@@ -61,9 +61,17 @@ Template.nav.onRendered(function() {
 
 Template.nate.events({
   'click .record_test': function(event) {
-    navigator.notification.alert('tapped');
+    console.log('*** navanjr ***: record button pressed: ' + event.target);
+    event.target.textContent = 'pressed';
+
+    function setAudioPosition(position) {
+      //document.getElementById('audio_position').innerHTML = position;
+      event.target.textContent = 'recording... ' + position;
+    }
+
     document.addEventListener('deviceready', function() {
       var src = "myrecording.amr";
+      var recordingStatus;
       var mediaRec = new Media(src,
         // success callback
         function() {
@@ -73,15 +81,50 @@ Template.nate.events({
         // error callback
         function(err) {
           navigator.notification.alert("recordAudio():Audio Error: "+ err.code);
-        });
+        },
+
+        function(status) {
+          console.log('*** navanjr ***: ' + status);
+          //if([0,4].contains(status)) {
+          //  navigator.notification.alert('Ready to record?');
+          //
+          //  //event.target.textContent = 'recording';
+          //} else {
+          //  console.log('*** navanjr *** else: ' + status);
+          //  //event.target.textContent = 'start';
+          //}
+        }
+      );
 
       // Record audio
       mediaRec.startRecord();
-
       // Stop recording after 10 seconds
       setTimeout(function() {
-          mediaRec.stopRecord();
-      }, 5000);
+        mediaRec.stopRecord();
+      }, 10000);
+
+      var mediaTimer = null;
+
+      // Update my_media position every second
+      if (mediaTimer == null) {
+        mediaTimer = setInterval(function () {
+          // get my_media position
+          mediaRec.getDuration(
+            // success callback
+            function (position) {
+              if (position > -1) {
+                setAudioPosition((position) + " sec");
+              }
+            },
+            // error callback
+            function (e) {
+              console.log("Error getting position: " + e);
+              setAudioPosition("Error: " + e);
+            }
+          );
+        }, 500);
+      }
+
     }, false);
   },
   'click .play_test': function(event) {
