@@ -1,22 +1,10 @@
+Local Market
+============
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+Local Market is an open source app powered by Meteor and made by [Percolate Studio](http://percolatestudio.com). In this example app we explore intermediate techniques:
 
-
-Welcome to your Meteor project on Cloud9 IDE!
-
-To run your new app open your terminal and type:
-   
-    $ meteor --port $IP:$PORT
-
-
-Happy coding!
-The Cloud9 IDE team
-
-## Support & Documentation
-
-Meteor documentation can be found at http://docs.meteor.com/
+  - Using a sample database to generate lists and items
+  - Integrating OAUTH with Meteor's accounts-ui package
+  - Cordova integration to use device phone and GPS
+  - Mobile UI & UX
+  
