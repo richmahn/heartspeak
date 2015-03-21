@@ -24,3 +24,4 @@ percolate:wireframing
 mdg:camera
 mdg:geolocation
 ground:db
+nrafter:createjs
