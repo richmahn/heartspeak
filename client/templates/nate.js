@@ -1,30 +1,46 @@
 Template.nate.events({
+  'click .record_test': function(event) {
+    navigator.notification.alert('tapped');
+    document.addEventListener('deviceready', function() {
+      var src = "myrecording.amr";
+      var mediaRec = new Media(src,
+        // success callback
+        function() {
+          navigator.notification.alert("recordAudio():Audio Success");
+        },
 
-    "click .record_test": captureAudio()
+        // error callback
+        function(err) {
+          navigator.notification.alert("recordAudio():Audio Error: "+ err.code);
+        });
 
+      // Record audio
+      mediaRec.startRecord();
+
+      // Stop recording after 10 seconds
+      setTimeout(function() {
+          mediaRec.stopRecord();
+      }, 5000);
+    }, false);
+  },
+  'click .play_test': function(event) {
+    var src = "myrecording.amr";
+    var mediaRec = new Media(src,
+      // success callback
+      function () {
+        navigator.notification.alert("playAudio():Audio Success");
+      },
+
+      // error callback
+      function (err) {
+        navigator.notification.alert("playAudio():Audio Error: " + err);
+      });
+
+      mediaRec.play();
+
+      // Pause after 10 seconds
+      setTimeout(function () {
+        mediaRec.pause();
+      }, 5000);
+  }
 });
-
-
-// Called when capture operation is finished
-//
-function captureSuccess(mediaFiles) {
-    //var i, len;
-    //for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-    //    uploadFile(mediaFiles[i]);
-    //}
-}
-
-// Called if something bad happens.
-//
-function captureError(error) {
-    var msg = 'An error occurred during capture: ' + error.code;
-    navigator.notification.alert(msg, null, 'Uh oh!');
-}
-
-// A button will call this function
-//
-function captureAudio() {
-    // Launch device audio recording application,
-    // allowing user to capture up to 2 audio clips
-    navigator.device.capture.captureAudio(captureSuccess, captureError, {limit: 2});
-}
