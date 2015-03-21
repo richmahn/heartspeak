@@ -9,12 +9,31 @@
         </h1>
       </div>
       <div class="description-nate">
-        <p>NateTest</p>
-        <button class="record_test">start</button>
-        <button class="play_test">play</button>
-        <canvas id="demoCanvas" width="375" height="300">
-          a canvas
-        </canvas>
+        <table width="100%">
+          <tr align="center">
+            <td colspan="3">
+              <canvas id="demoCanvas" width="375" height="300">
+                a canvas
+              </canvas>
+            </td>
+          </tr>
+          <tr align="center">
+            <td></td>
+            <td>
+              <table>
+                <tr>
+                  <td><button class="record_test">start</button></td>
+                  <td><button class="pause_test">pause</button></td>
+                  <td><button class="play_test">play</button></td>
+                </tr>
+              </table>
+            </td>
+            <td></td>
+          </tr>
+          <tr align="right">
+            <td colspan="3"><p class="media_status">recording...</p></td>
+          </tr>
+        </table>
       </div>
 
     </div>

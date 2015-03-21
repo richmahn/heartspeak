@@ -59,74 +59,75 @@ Template.nav.onRendered(function() {
   }
 });
 
+var media = {
+  maxLength: 10000,  //stop recording after media
+  timer: null,
+  length: 0,
+  paintSweep: 500,
+  odometer: 0
+};
+
 Template.nate.events({
   'click .record_test': function(event) {
+    var src = "myrecording.amr";
+    var mediaRec = new Media(src,
+
+      // success callback
+      function() {
+        console.log('*** navanjr ***: recordAudio():Audio Success');
+        setRecordText('record');
+      },
+
+      // error callback
+      function(err) {
+        navigator.notification.alert("recordAudio():Audio Error: "+ err.code);
+      },
+
+      function(status) {
+        console.log('*** navanjr *** - status: ' + status);
+      }
+    );
+
     console.log('*** navanjr ***: record button pressed: ' + event.target);
+    media.length = 0; // reset length
     event.target.textContent = 'pressed';
 
-    function setAudioPosition(position) {
+    function setRecordText(arg) {
       //document.getElementById('audio_position').innerHTML = position;
-      event.target.textContent = 'recording... ' + position;
+      //console.log('*** navanjr ***: setAudioPosition: ' + arg);
+      if(typeof(arg) === 'number') {
+        event.target.textContent = 'recording... ' + arg;
+      } else if(typeof(arg) === 'string') {
+        event.target.textContent = arg;
+      }
     }
 
-    document.addEventListener('deviceready', function() {
-      var src = "myrecording.amr";
-      var recordingStatus;
-      var mediaRec = new Media(src,
-        // success callback
-        function() {
-          navigator.notification.alert("recordAudio():Audio Success");
-        },
+    // Record audio
+    mediaRec.startRecord();
 
-        // error callback
-        function(err) {
-          navigator.notification.alert("recordAudio():Audio Error: "+ err.code);
-        },
+    // Update my_media position every second
+    if (media.timer == null) {
+      media.timer = setInterval(function () {
 
-        function(status) {
-          console.log('*** navanjr ***: ' + status);
-          //if([0,4].contains(status)) {
-          //  navigator.notification.alert('Ready to record?');
-          //
-          //  //event.target.textContent = 'recording';
-          //} else {
-          //  console.log('*** navanjr *** else: ' + status);
-          //  //event.target.textContent = 'start';
-          //}
+        // bail if we reach media.maxLength
+        if(media.length > media.maxLength) {
+          mediaRec.stopRecord();
+          mediaRec.release();
+          media.timer = null;
+          return;
         }
-      );
 
-      // Record audio
-      mediaRec.startRecord();
-      // Stop recording after 10 seconds
-      setTimeout(function() {
-        mediaRec.stopRecord();
-      }, 10000);
-
-      var mediaTimer = null;
-
-      // Update my_media position every second
-      if (mediaTimer == null) {
-        mediaTimer = setInterval(function () {
-          // get my_media position
-          mediaRec.getDuration(
-            // success callback
-            function (position) {
-              if (position > -1) {
-                setAudioPosition((position) + " sec");
-              }
-            },
-            // error callback
-            function (e) {
-              console.log("Error getting position: " + e);
-              setAudioPosition("Error: " + e);
-            }
-          );
-        }, 500);
-      }
-
-    }, false);
+        setRecordText(media.length);
+        media.length += media.paintSweep;
+        console.log('*** navanjr ***: ' + JSON.stringify(media));
+      }, media.paintSweep);
+    }
   },
+
+  'cilck .pause_test': function(event) {
+    navigator.notification.alert("pause(): Feature Coming Soon!");
+  },
+
   'click .play_test': function(event) {
     var src = "myrecording.amr";
     var mediaRec = new Media(src,
@@ -142,9 +143,10 @@ Template.nate.events({
 
       mediaRec.play();
 
-      // Pause after 10 seconds
+      // Pause after X seconds
       setTimeout(function () {
-        mediaRec.pause();
-      }, 5000);
+        mediaRec.stop();
+        mediaRec.release();
+      }, media.maxLength);
   }
 });
