@@ -1,0 +1,2 @@
+Template.sandbox.onRendered(function() {
+});
