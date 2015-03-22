@@ -27,12 +27,12 @@ function play_handler(){
 function clickThumbnail(event){
     saveSketch();
     stage.clear();
+    stage.removeAllChildren();
 
-    //var thumbnail = $(event.target)[0];
-    //console.log(thumbnail);
-    //var bitmap = new createjs.Shape(thumbnail.attr('src'));
+    var bitmap = new createjs.Bitmap(event.target);
+    stage.addChild(bitmap);
 
-    //stage.addChild(bitmap);
+    stage.update();
 }
 
 function saveSketch(){
