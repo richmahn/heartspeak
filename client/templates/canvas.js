@@ -9,22 +9,26 @@ var media = {
   path: '/audio/esv'
 };
 
-//if (Meteor.isClient) {
-    // This code only runs on the client
-    Template.canvas.helpers({
-        sketches: function () {
-            return SketchList.find({chunk: media.chunkSeed});
-        },
+createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this));
+function handleLoadComplete(event) {
+  console.log('unhiding');
+  $('.play').removeClass('hidden');
+}
 
-      chunkSeed: function() {
-        console.log('router? helper? ' + media.chunkSeed);
-        return media.chunkSeed;
-      }
-    });
-//}
+Template.canvas.helpers({
+    sketches: function () {
+        return SketchList.find({chunk: media.chunkSeed});
+    },
+
+  chunkSeed: function() {
+    console.log('router? helper? ' + media.chunkSeed);
+    return media.chunkSeed;
+  }
+});
 
 Template.canvas.onCreated(function() {
   media.chunkSeed = this.data;
+  
   console.log('router? onCreated...' + media.chunkSeed);
 });
 
@@ -39,11 +43,9 @@ Template.canvas.onRendered(function() {
 
   media.src = (media.path || '/audio/esv') + '/' + media.row.src;
   createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
-  createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this)); // add an event listener for when load is completed
+   // add an event listener for when load is completed
   createjs.Sound.registerSound(media.src, "music");
-  function handleLoadComplete(event) {
-    //instance = createjs.Sound.play("music");
-  }
+
   stop_handler();
 });
 
@@ -76,7 +78,7 @@ function theFacts() {
     chunkSeed: media.chunkSeed,
     row: media.row
   };
-  console.log(obj);
+  console.log(JSON.stringify(obj));
 }
 
 function play_handler(event) {
