@@ -1,0 +1,26 @@
+<template name="bookSelection">
+  <div class="page book-selection">
+
+    {{>nav title='Book Selection' black=true}}
+
+    <div class="content-scrollable">
+      <div class="bg-image book-selection">
+        <h1 class="title-book-selection">
+          You will listen in English
+        </h1>
+        <span class="actions"><span class="title-callout">Pick a Book</span>
+        of the bible to translate into a new language.</span>
+        <span class="arrow"></span>
+      </div>
+
+      <h2 class="list-title">Books of the Bible</h2>
+      <div class="list-books">
+        {{#each books}}
+          {{> book}}
+        {{/each}}
+      </div>
+      <a href="{{pathFor 'chunks'}}" class="btn-primary">Review the Chunks</a>
+    </div>
+
+  </div>
+</template>

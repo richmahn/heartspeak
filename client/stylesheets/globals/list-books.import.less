@@ -1,0 +1,44 @@
+.list-books {
+  background: @color-empty;
+  min-height: 16em;
+  overflow: auto;
+  position: relative;
+
+  .wrapper-message { top: 50%; }
+}
+
+.item-book {
+  .transform(translate3d(0,0,0));
+  background: @color-empty;
+  border-top: 1px solid @color-rare;
+  display: block;
+  float: left;
+  overflow: hidden;
+  padding: .75em;
+  position: relative;
+  width: 100%;
+
+  .attribution {
+    .font-s2;
+    display: block;
+    margin-bottom: .5rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+
+    .meta {
+      color: @color-well;
+      overflow: hidden;
+      display: block;
+      text-align: center;
+    }
+
+    .title { .type-black; }
+  }
+
+  .bg-image {
+    display: block;
+    height: 27em;
+    width: 100%;
+  }
+}

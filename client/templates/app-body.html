@@ -1,28 +1,25 @@
 <template name="appBody">
   <div class="wrapper-welcome">
-    <div class="title-welcome">Local Market</div>
-    <div class="description-welcome">Local Market was made by <a href="http://percolatestudio.com" target="_blank" class="js-open">Percolate Studio</a> as an example of a cross platform mobile app built in <a href="https://www.meteor.com" target="_blank" class="js-open">Meteor</a>. The entire app is less than 1,000 lines of JavaScript. View the source on <a href="https://github.com/meteor/meteor/tree/devel/examples/localmarket" target="_blank" class="js-open">GitHub</a>.
+    <div class="title-welcome">Heartspeak</div>
+    <div class="description-welcome">Heartspeak was made by <a href="http://www.codeforthekingdom.com" target="_blank" class="js-open">a Hackathon group at CT4k</a> as an assistance to <a href="http://www.wycliffeassociates.org/" target="_blank" class="js-open">Wycliffe Associates</a>. The entire app was made in 48 hours. View the source on <a href="https://github.com/symboliclink/heartspeak" target="_blank" class="js-open">GitHub</a>.
     </div>
 
     <div class="description-welcome">
-    The app is designed to run on a physical device, where it uses the hardware's native camera and GPS support.
+    The app is designed to run on a physical device, where it uses the hardware's native audio capture support.
     </div>
 
     <div class="description-welcome">
     You can also run it in a simulator, or in a desktop browser as a convenience (what you're looking at right now).
     </div>
 
-    <div class="description-welcome">
-    This app includes a simple administrative backend that you can use to set welcome text on the app's home screen. Visit <a href="{{pathFor 'admin'}}">/admin</a> to log into the backend. The first authenticated user is allowed access.
-    </div>
   </div>
 
   <div id="container" class="{{menuOpen}} {{overlayOpen}}">
     <section id="menu" class="overthrow">
-        <a href="{{pathFor 'home'}}" class="{{activePage 'home'}}">
+        <a href="{{pathFor 'book-selection'}}" class="{{activePage 'book-selection'}}">
         <span class="wrapper-menu-item">
           <span class="icon-home"></span>
-          <span class="title-menu">Home</span>
+          <span class="title-menu">Book Selection</span>
         </span>
         </a>
 
