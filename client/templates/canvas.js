@@ -17,8 +17,8 @@ var media = {
         },
 
       chunkSeed: function() {
-        console.log('router? helper? ' + this.chunkSeed);
-        return this.chunkSeed;
+        console.log('router? helper? ' + media.chunkSeed);
+        return media.chunkSeed;
       }
     });
 //}
