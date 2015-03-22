@@ -46,7 +46,7 @@ function play_handler(event) {
 
     // error callback
     function (err) {
-      navigator.notification.alert("playAudio():Audio Error: " + err);
+      console.log('playAudio():Audio Error: ' + err);
     },
 
     // status callback
@@ -81,7 +81,7 @@ function record_handler(event) {
 
     // error callback
     function(err) {
-      navigator.notification.alert("recordAudio():Audio Error: "+ err.code);
+      console.log("recordAudio():Audio Error: "+ err.code);
     },
 
     // status callback
