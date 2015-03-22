@@ -4,12 +4,18 @@ Meteor.startup(function() {
     Geolocation.currentLocation();
     SketchList = new Ground.Collection('sketches', { connection: null });
     ChunkList = new Ground.Collection('chunks', { connection: null });
+    ChunkService = {
+        rebuild: loadChunkData
+    };
 
     if(ChunkList.findOne()==null)
-        loadChunkData();
+        ChunkService.rebuild();
 });
 
+
 function loadChunkData(){
+    ChunkList.clear();
+
     var john = [
         {src: "B04___01_John________ENGESVN2DA.mp3", data:[{"verse_id":1,"verse_start":3.159},{"verse_id":2,"verse_start":10.132},{"verse_id":3,"verse_start":12.265},{"verse_id":4,"verse_start":17.291},{"verse_id":5,"verse_start":21.291},{"verse_id":6,"verse_start":26.344},{"verse_id":7,"verse_start":30.252},{"verse_id":8,"verse_start":35.675},{"verse_id":9,"verse_start":39.861},{"verse_id":10,"verse_start":44.278},{"verse_id":11,"verse_start":50.45},{"verse_id":12,"verse_start":54.768},{"verse_id":13,"verse_start":61.225},{"verse_id":14,"verse_start":68.053},{"verse_id":15,"verse_start":78.132},{"verse_id":16,"verse_start":89.556},{"verse_id":17,"verse_start":94.477},{"verse_id":18,"verse_start":100.424},{"verse_id":19,"verse_start":108.411},{"verse_id":20,"verse_start":116.715},{"verse_id":21,"verse_start":122.848},{"verse_id":22,"verse_start":134.742},{"verse_id":23,"verse_start":142.305},{"verse_id":24,"verse_start":153.079},{"verse_id":25,"verse_start":156.053},{"verse_id":26,"verse_start":163.887},{"verse_id":27,"verse_start":170.808},{"verse_id":28,"verse_start":177.132},{"verse_id":29,"verse_start":182.424},{"verse_id":30,"verse_start":191.848},{"verse_id":31,"verse_start":199.556},{"verse_id":32,"verse_start":208.252},{"verse_id":33,"verse_start":216.742},{"verse_id":34,"verse_start":229.609},{"verse_id":35,"verse_start":235.132},{"verse_id":36,"verse_start":239},{"verse_id":37,"verse_start":244.954},{"verse_id":38,"verse_start":249},{"verse_id":39,"verse_start":260.662},{"verse_id":40,"verse_start":270.318},{"verse_id":41,"verse_start":275.662},{"verse_id":42,"verse_start":282.675},{"verse_id":43,"verse_start":293.901},{"verse_id":44,"verse_start":300.649},{"verse_id":45,"verse_start":304.45},{"verse_id":46,"verse_start":314.026},{"verse_id":47,"verse_start":321.675},{"verse_id":48,"verse_start":330.132},{"verse_id":49,"verse_start":340.623},{"verse_id":50,"verse_start":346.848},{"verse_id":51,"verse_start":355.861}]}
         ,{src: "B04___02_John________ENGESVN2DA.mp3", data:[{"verse_id":1,"verse_start":3.066},{"verse_id":2,"verse_start":8.543},{"verse_id":3,"verse_start":11.927},{"verse_id":4,"verse_start":17.093},{"verse_id":5,"verse_start":24.715},{"verse_id":6,"verse_start":29.556},{"verse_id":7,"verse_start":36.517},{"verse_id":8,"verse_start":43.066},{"verse_id":9,"verse_start":49.94},{"verse_id":10,"verse_start":60.252},{"verse_id":11,"verse_start":71.689},{"verse_id":12,"verse_start":80.464},{"verse_id":13,"verse_start":88.728},{"verse_id":14,"verse_start":93.781},{"verse_id":15,"verse_start":100.755},{"verse_id":16,"verse_start":109.98},{"verse_id":17,"verse_start":117.874},{"verse_id":18,"verse_start":124.053},{"verse_id":19,"verse_start":130.093},{"verse_id":20,"verse_start":136.49},{"verse_id":21,"verse_start":145.649},{"verse_id":22,"verse_start":148.755},{"verse_id":23,"verse_start":157.53},{"verse_id":24,"verse_start":164.728},{"verse_id":25,"verse_start":170.768}]}
@@ -35,8 +41,8 @@ function loadChunkData(){
     ];
 
     var bookIndex = 4;
-    var chunks = [];
     var temp = [];
+    var chunkSeq = 1;
 
     _.each(john, function(chapter){
         var src = chapter.src;
@@ -50,18 +56,17 @@ function loadChunkData(){
                 // get end of chunk
                 var endTime = (list[index+1]) ? list[index+1].verse_start : null;
 
-                chunks.push({book:bookIndex, chunk: bookIndex + "_" + chunks.length + 1, completed: false, src: src, start:temp[0].verse_start, end: endTime});
+                ChunkList.insert({book:bookIndex, chunk: bookIndex + "_" + chunkSeq, sequence: chunkSeq, completed: false, src: src, start:temp[0].verse_start, end: endTime});
 
+                chunkSeq++;
                 temp.length=0;
             }
         });
     });
 
     //console.table(chunks);
-
     //console.log(JSON.stringify(chunks));
-
-    _.each(chunks, function(chunk){
-        ChunkList.insert(chunk);
-    });
+    //_.each(chunks, function(chunk){
+    //    ChunkList.insert(chunk);
+    //});
 }
