@@ -1,21 +1,53 @@
+var sketchList = new Ground.Collection('sketches', { connection: null });
+var saveDisabled;
+var stage;
+
+if (Meteor.isClient) {
+    // This code only runs on the client
+    Template.canvas.helpers({
+        sketches: function () {
+            return sketchList.find();
+        }
+    });
+}
+
 Template.canvas.onRendered(function() {
     newCanvas();
 });
 
 Template.canvas.events({
-    'click .save': function() {
-        var canvas = document.getElementById("sketchCanvas");
-        localStorage.setItem('sketch', canvas.toDataURL());
-        alert('saved to local storage');
-
-        newCanvas();
-    }
+    'click .save': saveSketch,
+    'click .thumbnail': clickThumbnail
 });
+
+function clickThumbnail(event){
+    saveSketch();
+    stage.clear();
+
+    //var thumbnail = $(event.target)[0];
+    //console.log(thumbnail);
+    //var bitmap = new createjs.Shape(thumbnail.attr('src'));
+
+    //stage.addChild(bitmap);
+}
+
+function saveSketch(){
+    if(saveDisabled) return;
+
+    var canvas = document.getElementById("sketchCanvas");
+    var dataUrl = canvas.toDataURL();
+
+    sketchList.insert({url: dataUrl});
+
+    newCanvas();
+}
 
 // function to setup a new canvas for drawing
 function newCanvas(){
-    var index = 0,
-        stage = new createjs.Stage('sketchCanvas');
+    saveDisabled = true;
+
+    stage = new createjs.Stage('sketchCanvas');
+
     stage.clear();
     stage.autoClear = false;
     stage.enableDOMEvents(true);
@@ -29,7 +61,7 @@ function newCanvas(){
     stage.addEventListener('stagemouseup', handleMouseUp);
 
     var title = new createjs.Text('Sketch your ♥ out!', '36px Arial', '#777777');
-    title.x = 20;
+    title.x = 40;
     title.y = 100;
     stage.addChild(title);
 
@@ -38,9 +70,11 @@ function newCanvas(){
 
     function handleMouseDown(event) {
         if (!event.primary) { return; }
+
         if (stage.contains(title)) {
             stage.clear();
             stage.removeChild(title);
+            saveDisabled = false;
         }
         color = "#000";
         stroke = 10;

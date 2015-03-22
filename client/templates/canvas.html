@@ -2,12 +2,19 @@
     <div class="page canvasPage">
         {{> nav title='Sketch' black=true}}
 
+        <div class="thumbnails">
+            {{#each sketches}}
+                <img src="{{this.url}}" height="75" class="thumbnail" />
+            {{/each}}
+        </div>
+
         <div class="content">
             <div class="canvasWrapper">
                 <canvas id="sketchCanvas" width="450" height="450">
                 </canvas>
             </div>
         </div>
+
 
         <div class="footer">
             <div class="save">
