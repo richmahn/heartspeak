@@ -31,15 +31,15 @@ Template.appBody.addNotification = function(notification) {
 
 Meteor.startup(function () {
   // set up a swipe left / right handler
-  $(document.body).touchwipe({
-    wipeLeft: function () {
-      Session.set(MENU_KEY, false);
-    },
-    wipeRight: function () {
-      Session.set(MENU_KEY, true);
-    },
-    preventDefaultEvents: false
-  });
+  //$(document.body).touchwipe({
+  //  wipeLeft: function () {
+  //    Session.set(MENU_KEY, false);
+  //  },
+  //  wipeRight: function () {
+  //    Session.set(MENU_KEY, true);
+  //  },
+  //  preventDefaultEvents: false
+  //});
 
   // Only show the connection error box if it has been 5 seconds since
   // the app started
