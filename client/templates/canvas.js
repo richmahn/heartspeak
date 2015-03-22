@@ -16,8 +16,13 @@ Template.canvas.onRendered(function() {
 
 Template.canvas.events({
     'click .save': saveSketch,
-    'click .thumbnail': clickThumbnail
+    'click .thumbnail': clickThumbnail,
+    'click .play': play_handler
 });
+
+function play_handler(){
+
+}
 
 function clickThumbnail(event){
     saveSketch();
