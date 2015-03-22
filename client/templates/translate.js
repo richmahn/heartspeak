@@ -7,7 +7,7 @@ if (Meteor.isClient) {
     });
 }
 
-var media = {
+media = {
   maxLength: 10000,  //stop recording after media
   timer: null,
   length: 0,
