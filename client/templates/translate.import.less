@@ -1,40 +1,25 @@
 .translatePage {
   background-color:#fff;
   display: flex;
-  flex-flow: column;
+  flex-direction: row;
   height:100%;
 
   .thumbnails{
     margin-top:50px;
-
+    flex: 1 1 auto;
     .thumbnail {
       height: 120px;
     }
   }
 
-  .content {
-    flex: 1 1 auto;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-  }
-
-  .canvasWrapper {
-    padding-top: 50px;
-    padding-bottom: 0;
-    text-align: center;
-    width:100%;
-
-    canvas{
-      cursor:crosshair;
-      border: 3px solid black;
-    }
-  }
-
-  .footer{
-    flex: 0 1 90px;
-    text-align:right;
-    width:100%;
+  .sound{
+      flex: 0 1 500px;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-end;
+      align-content: flex-start;
+      text-align:right;
+      width:100%;
   }
 
 }
