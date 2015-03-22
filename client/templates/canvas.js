@@ -1,13 +1,10 @@
-var ctx, color = "#000", x = 0, y = 0, z = 0;
-
-
 Template.canvas.onRendered(function() {
     newCanvas();
 });
 
 Template.canvas.events({
     'click .save': function() {
-        var canvas = document.getElementById("canvas");
+        var canvas = document.getElementById("sketchCanvas");
         localStorage.setItem('sketch', canvas.toDataURL());
         alert('saved to local storage');
 
@@ -17,72 +14,62 @@ Template.canvas.events({
 
 // function to setup a new canvas for drawing
 function newCanvas(){
-    //define and resize canvas
-    var height = $(window).height()-90;
-    $("#content").height(height);
-    var canvas = '<canvas id="canvas" width="'+$(window).width()+'" height="' + height + '"></canvas>';
-    $("#content").html(canvas);
+    var index = 0,
+        stage = new createjs.Stage('sketchCanvas');
+    stage.clear();
+    stage.autoClear = false;
+    stage.enableDOMEvents(true);
 
-    // setup canvas
-    ctx=document.getElementById("canvas").getContext("2d");
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 8;
+    createjs.Touch.enable(stage);
+    createjs.Ticker.setFPS(24);
 
-    // set starting point in center
-    ctx.beginPath();
-    x = $(window).width()/2 ;
-    y = ($(window).height())/2 ;
-    ctx.moveTo(x, y);
+    var drawingCanvas = new createjs.Shape();
 
-    // setup to trigger drawing on mouse or touch
-    $("#canvas").drawTouch();
-    //$("#canvas").drawPointer();
-    $("#canvas").drawMouse();
-}
+    stage.addEventListener('stagemousedown', handleMouseDown);
+    stage.addEventListener('stagemouseup', handleMouseUp);
 
-// prototype to	start drawing on touch using canvas moveTo and lineTo
-$.fn.drawTouch = function() {
-    var start = function(e) {
-        e = e.originalEvent;
-        ctx.beginPath();
-        x = e.changedTouches[0].pageX;
-        y = e.changedTouches[0].pageY;//-44;
-        ctx.moveTo(x,y);
-    };
-    var move = function(e) {
-        e.preventDefault();
-        e = e.originalEvent;
-        x = e.changedTouches[0].pageX;
-        y = e.changedTouches[0].pageY;//-44;
-        ctx.lineTo(x,y);
-        ctx.stroke();
-    };
-    $(this).on("touchstart", start);
-    $(this).on("touchmove", move);
-};
+    var title = new createjs.Text('Sketch your ♥ out!', '36px Arial', '#777777');
+    title.x = 20;
+    title.y = 100;
+    stage.addChild(title);
 
-// prototype to	start drawing on mouse using canvas moveTo and lineTo
-$.fn.drawMouse = function() {
-    var clicked = 0;
-    var start = function(e) {
-        clicked = 1;
-        ctx.beginPath();
-        x = e.pageX;
-        y = e.pageY;//-44;
-        ctx.moveTo(x,y);
-    };
-    var move = function(e) {
-        if(clicked){
-            x = e.pageX;
-            y = e.pageY;//-44;
-            ctx.lineTo(x,y);
-            ctx.stroke();
+    stage.addChild(drawingCanvas);
+    stage.update();
+
+    function handleMouseDown(event) {
+        if (!event.primary) { return; }
+        if (stage.contains(title)) {
+            stage.clear();
+            stage.removeChild(title);
         }
-    };
-    var stop = function(e) {
-        clicked = 0;
-    };
-    $(this).on("mousedown", start);
-    $(this).on("mousemove", move);
-    $(window).on("mouseup", stop);
-};
+        color = "#000";
+        stroke = 10;
+        oldPt = new createjs.Point(stage.mouseX, stage.mouseY);
+        oldMidPt = oldPt.clone();
+        stage.addEventListener('stagemousemove', handleMouseMove);
+    }
+
+    function handleMouseMove(event) {
+        if (!event.primary) { return; }
+        var midPt = new createjs.Point(oldPt.x + stage.mouseX >> 1, oldPt.y + stage.mouseY >> 1);
+
+        drawingCanvas.graphics.clear()
+            .setStrokeStyle(stroke, 'round', 'round')
+            .beginStroke(color)
+            .moveTo(midPt.x, midPt.y)
+            .curveTo(oldPt.x, oldPt.y, oldMidPt.x, oldMidPt.y);
+
+        oldPt.x = stage.mouseX;
+        oldPt.y = stage.mouseY;
+
+        oldMidPt.x = midPt.x;
+        oldMidPt.y = midPt.y;
+
+        stage.update();
+    }
+
+    function handleMouseUp(event) {
+        if (!event.primary) { return; }
+        stage.removeEventListener('stagemousemove', handleMouseMove);
+    }
+}
