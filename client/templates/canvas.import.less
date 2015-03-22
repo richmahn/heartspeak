@@ -3,38 +3,41 @@
   display: flex;
   flex-flow: column;
   height:100%;
-}
-.thumbnails{
-  margin-top:50px;
-  height:80px;
-  white-space: nowrap;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  overflow:scroll;
-  -webkit-overflow-scrolling: touch;
-}
 
-.content {
-  flex: 1 1 auto;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-}
 
-.canvasWrapper {
-  padding-top: 50px;
-  padding-bottom: 0;
-  text-align: center;
-  width:100%;
-
-  canvas{
-    cursor:crosshair;
-    border: 3px solid black;
+  .thumbnails{
+    margin-top:50px;
+    height:80px;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
   }
-}
 
-.footer{
-  flex: 0 1 90px;
-  text-align:right;
-  width:100%;
+  .content {
+    flex: 1 1 auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+
+  .canvasWrapper {
+    padding-top: 50px;
+    padding-bottom: 0;
+    text-align: center;
+    width:100%;
+
+    canvas{
+      cursor:crosshair;
+      border: 3px solid black;
+    }
+  }
+
+  .footer{
+    flex: 0 1 90px;
+    text-align:right;
+    width:100%;
+  }
+
 }

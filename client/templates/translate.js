@@ -1,10 +1,8 @@
-var sketchList = new Ground.Collection('sketches', { connection: null });
-
 if (Meteor.isClient) {
     // This code only runs on the client
     Template.translate.helpers({
         sketches: function () {
-            return sketchList.find();
+            return SketchList.find();
         }
     });
 }

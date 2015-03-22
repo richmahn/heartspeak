@@ -1,4 +1,3 @@
-var sketchList = new Ground.Collection('sketches', { connection: null });
 var saveDisabled;
 var stage;
 
@@ -6,7 +5,7 @@ if (Meteor.isClient) {
     // This code only runs on the client
     Template.canvas.helpers({
         sketches: function () {
-            return sketchList.find();
+            return SketchList.find();
         }
     });
 }
@@ -37,7 +36,7 @@ function saveSketch(){
     var canvas = document.getElementById("sketchCanvas");
     var dataUrl = canvas.toDataURL();
 
-    sketchList.insert({url: dataUrl});
+    SketchList.insert({url: dataUrl});
 
     newCanvas();
 }
