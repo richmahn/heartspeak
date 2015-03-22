@@ -1,0 +1,15 @@
+<template name="browse">
+  <div class="page browse">
+    {{> nav title='Browse' black=true}}
+
+    <div class="content-scrollable">
+        <div class="chunks">
+            {{#each chunks}}
+                <span class="chunk">
+                    <a href="/canvas/{{this.chunk}}">{{this.chunk}}</a>
+                </span>
+            {{/each}}
+        </div>
+    </div>
+  </div>
+</template>
