@@ -1,25 +1,50 @@
 var saveDisabled;
 var stage;
+var media = {
+  maxLength: 10000,  //stop recording after media
+  timer: null,
+  length: 0,
+  paintSweep: 500,
+  odometer: 0,
+  path: '/audio/esv'
+};
 
-if (Meteor.isClient) {
+//if (Meteor.isClient) {
     // This code only runs on the client
     Template.canvas.helpers({
         sketches: function () {
-            return SketchList.find();
-        }
+            return SketchList.find({chunk: media.chunkSeed});
+        },
+
+      chunkSeed: function() {
+        console.log('router? helper? ' + this.chunkSeed);
+        return this.chunkSeed;
+      }
     });
-}
+//}
+
+Template.canvas.onCreated(function() {
+  media.chunkSeed = this.data;
+  console.log('router? onCreated...' + media.chunkSeed);
+});
 
 Template.canvas.onRendered(function() {
   newCanvas();
-  media.row = ChunkList.find({chunk: '4_21'}).fetch()[0];
-  media.src = media.path + '/' + media.row.src;
+
+  // media
+  //console.log('router? ' + Selection.get('routeStuff').chunkSeed);
+  media.chunkSeed = this.data;
+  media.row = ChunkList.find({chunk: media.chunkSeed}).fetch()[0];
+
+
+  media.src = (media.path || '/audio/esv') + '/' + media.row.src;
   createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
   createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this)); // add an event listener for when load is completed
   createjs.Sound.registerSound(media.src, "music");
   function handleLoadComplete(event) {
     //instance = createjs.Sound.play("music");
   }
+  stop_handler();
 });
 
 Template.canvas.events({
@@ -30,14 +55,6 @@ Template.canvas.events({
     'click .stop': stop_handler
 });
 
-var media = {
-  maxLength: 10000,  //stop recording after media
-  timer: null,
-  length: 0,
-  paintSweep: 500,
-  odometer: 0,
-  path: '/audio/esv'
-};
 
 var timer = setInterval(
   function() {
@@ -55,6 +72,8 @@ function theFacts() {
     paused: media.paused,
     msStart: media.msStart,
     msEnd: media.msEnd,
+    src: media.src,
+    chunkSeed: media.chunkSeed,
     row: media.row
   };
   console.log(obj);
@@ -109,7 +128,7 @@ function saveSketch(){
     var canvas = document.getElementById("sketchCanvas");
     var dataUrl = canvas.toDataURL();
 
-    SketchList.insert({url: dataUrl});
+    SketchList.insert({url: dataUrl, chunk: media.chunkSeed});
 
     newCanvas();
 }

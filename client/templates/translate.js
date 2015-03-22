@@ -1,11 +1,21 @@
-if (Meteor.isClient) {
+//if (Meteor.isClient) {
     // This code only runs on the client
     Template.translate.helpers({
         sketches: function () {
-            return SketchList.find();
-        }
+            return SketchList.find({chunk: media.chunkSeed});
+        },
+      chunkSeed: function() {
+        console.log('router? helper? ' + this.chunkSeed);
+        return this.chunkSeed;
+      }
+
     });
-}
+//}
+
+Template.translate.onCreated(function() {
+  media.chunkSeed = this.data;
+  console.log('router? onCreated...' + media.chunkSeed);
+});
 
 media = {
   maxLength: 10000,  //stop recording after media
