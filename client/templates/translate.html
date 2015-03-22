@@ -1,22 +1,16 @@
 <template name="translate">
-  <div class="media capture test">
-    {{> nav title='Translate' black=true}}
+    <div class="page translatePage">
+        {{> nav title='Translate' black=true}}
 
-    <div class="content-scrollable">
-      <div class="bg-image about">
-        <h1 class="title-about">
-          <img src="img/app/title-about.svg" alt="Go Local"/>
-        </h1>
-      </div>
+        <div class="thumbnails">
+            {{#each sketches}}
+                <img src="{{this.url}}" height="75" class="thumbnail" />
+            {{/each}}
+        </div>
+
       <div class="description-translate">
         <table width="100%">
-          <tr align="center">
-            <td colspan="3">
-              <canvas id="demoCanvas" width="375" height="300">
-                a canvas
-              </canvas>
-            </td>
-          </tr>
+
           <tr align="center">
             <td></td>
             <td>
@@ -36,8 +30,5 @@
           </tr>
         </table>
       </div>
-
-    </div>
-    <a href="https://www.meteor.com" class="btn-primary js-open" target="_blank">Learn More</a>
-  </div>
+        </div>
 </template>
