@@ -1,16 +1,31 @@
-#content {
-  background-color:#ddd;
+.canvasPage {
+  background-color:#fff;
+  display: flex;
+  flex-flow: column;
+  height:100%;
+}
 
+.content {
+  flex: 1 1 auto;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
 }
-#canvas{
-  cursor:crosshair ;
-  background-color:#fff;
+
+.canvasWrapper {
+  padding-top: 50px;
+  padding-bottom: 0;
+  text-align: center;
+  width:100%;
+
+  canvas{
+    cursor:crosshair;
+    border: 3px solid black;
+  }
 }
+
 .footer{
+  flex: 0 1 90px;
   text-align:right;
   width:100%;
-  background-color: #fff;
 }

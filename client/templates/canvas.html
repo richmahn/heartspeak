@@ -1,14 +1,18 @@
 <template name="canvas">
-    <div class="page canvas">
+    <div class="page canvasPage">
         {{> nav title='Sketch' black=true}}
 
-        <div id="content">
-
+        <div class="content">
+            <div class="canvasWrapper">
+                <canvas id="sketchCanvas" width="450" height="450">
+                </canvas>
+            </div>
         </div>
 
         <div class="footer">
             <div class="save">
                 <img src="/img/app/ic_arrow_forward_black_48dp.png" />
+                <br />
             </div>
         </div>
     </div>

@@ -67,7 +67,7 @@ var media = {
   odometer: 0
 };
 
-Template.nate.events({
+Template.translate.events({
   'click .record_test': function(event) {
     var src = "myrecording.amr";
     var mediaRec = new Media(src,
@@ -75,7 +75,7 @@ Template.nate.events({
       // success callback
       function() {
         console.log('*** navanjr ***: recordAudio():Audio Success');
-        setRecordText('record');
+        setStatusText('');
       },
 
       // error callback
@@ -90,15 +90,15 @@ Template.nate.events({
 
     console.log('*** navanjr ***: record button pressed: ' + event.target);
     media.length = 0; // reset length
-    event.target.textContent = 'pressed';
+    //event.target.textContent = 'pressed';
 
-    function setRecordText(arg) {
+    function setStatusText(arg) {
       //document.getElementById('audio_position').innerHTML = position;
       //console.log('*** navanjr ***: setAudioPosition: ' + arg);
       if(typeof(arg) === 'number') {
-        event.target.textContent = 'recording... ' + arg;
+        $('#media_status').text('recording... ' + arg);
       } else if(typeof(arg) === 'string') {
-        event.target.textContent = arg;
+        $('#media_status').text(arg);
       }
     }
 
@@ -117,15 +117,19 @@ Template.nate.events({
           return;
         }
 
-        setRecordText(media.length);
+        setStatusText(media.length);
         media.length += media.paintSweep;
-        console.log('*** navanjr ***: ' + JSON.stringify(media));
+        //console.log('*** navanjr ***: ' + JSON.stringify(media));
       }, media.paintSweep);
     }
   },
 
   'cilck .pause_test': function(event) {
     navigator.notification.alert("pause(): Feature Coming Soon!");
+  },
+
+  'cilck .stop_test': function(event) {
+    navigator.notification.alert("stop(): Feature Coming Soon!");
   },
 
   'click .play_test': function(event) {

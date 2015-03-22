@@ -1,6 +1,6 @@
-<template name="nate">
+<template name="translate">
   <div class="media capture test">
-    {{> nav title='Nate' black=true}}
+    {{> nav title='Translate' black=true}}
 
     <div class="content-scrollable">
       <div class="bg-image about">
@@ -8,7 +8,7 @@
           <img src="img/app/title-about.svg" alt="Go Local"/>
         </h1>
       </div>
-      <div class="description-nate">
+      <div class="description-translate">
         <table width="100%">
           <tr align="center">
             <td colspan="3">
@@ -22,16 +22,17 @@
             <td>
               <table>
                 <tr>
-                  <td><button class="record_test">start</button></td>
-                  <td><button class="pause_test">pause</button></td>
-                  <td><button class="play_test">play</button></td>
+                  <td><button class="record_test">record</button></td>
+                  <td><button class="pause_test">pause</button></td> <!-- TODO: pause does not work -->
+                  <td><button class="play_test">play</button></td>  <!-- TODO: play breaks after first use -->
+                  <td><button class="stop_test">stop</button></td> <!-- TODO: stop is broke -->
                 </tr>
               </table>
             </td>
             <td></td>
           </tr>
           <tr align="right">
-            <td colspan="3"><p class="media_status">recording...</p></td>
+            <td colspan="3"><div id="media_status"></div></td>
           </tr>
         </table>
       </div>
