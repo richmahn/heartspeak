@@ -2,30 +2,26 @@
     <div class="page canvasPage">
         {{> nav title='Sketch' black=true}}
 
-
-
         <div class="thumbnails">
             {{#each sketches}}
                 <img src="{{this.url}}" height="75" class="thumbnail" />
             {{/each}}
         </div>
 
-        <div class="content">
+        <div class="canvasContainer">
+
             <div class="canvasWrapper">
                 <canvas id="sketchCanvas" width="450" height="450">
                 </canvas>
             </div>
-        </div>
 
       <div class="media_controls">
         <div><img class="play" src="/img/app/ic_play_arrow_black_48dp.png" /></div>
         <div><img class="pause" src="/img/app/ic_pause_black_48dp.png" /></div>
         <div><img class="stop" src="/img/app/ic_stop_black_48dp.png" /></div>
+          <div><img class="save" src="/img/app/ic_arrow_forward_black_48dp.png" /></div>
       </div>
 
-        <div class="footer">
-                <img class="save" src="/img/app/ic_arrow_forward_black_48dp.png" />
-                <br />
-        </div>
+</div>
     </div>
 </template>

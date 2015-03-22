@@ -4,7 +4,10 @@
   flex-flow: column;
   height:100%;
 
-
+.canvasContainer {
+  display: flex;
+  flex-flow: row;
+}
   .thumbnails{
     margin-top:50px;
     height:80px;
@@ -26,6 +29,7 @@
     padding-top: 50px;
     padding-bottom: 0;
     text-align: center;
+    flex: 1 1 auto;
     width:100%;
 
     canvas{
@@ -41,9 +45,8 @@
   }
 
   .media_controls{
-
     margin-top:50px;
-    flex: 0 1 500px;
+    flex: 0 1 100px;
     text-align:right;
     width:100%;
   }
