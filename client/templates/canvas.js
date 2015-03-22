@@ -9,6 +9,7 @@ var media = {
   path: '/audio/esv'
 };
 
+// add an event listener for when load is completed
 createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this));
 function handleLoadComplete(event) {
   console.log('unhiding');
@@ -28,7 +29,7 @@ Template.canvas.helpers({
 
 Template.canvas.onCreated(function() {
   media.chunkSeed = this.data;
-  
+
   console.log('router? onCreated...' + media.chunkSeed);
 });
 
@@ -43,7 +44,6 @@ Template.canvas.onRendered(function() {
 
   media.src = (media.path || '/audio/esv') + '/' + media.row.src;
   createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
-   // add an event listener for when load is completed
   createjs.Sound.registerSound(media.src, "music");
 
   stop_handler();
