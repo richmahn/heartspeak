@@ -17,11 +17,51 @@ Template.canvas.onRendered(function() {
 Template.canvas.events({
     'click .save': saveSketch,
     'click .thumbnail': clickThumbnail,
-    'click .play': play_handler
+    'click .play': play_handler,
+    'click .pause': pause_handler,
+    'click .stop': stop_handler
 });
 
-function play_handler(){
+var media = {
+  maxLength: 10000,  //stop recording after media
+  timer: null,
+  length: 0,
+  paintSweep: 500,
+  odometer: 0,
+  src: "/audio/esv/B04___01_John________ENGESVN2DA.mp3"
+};
 
+createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
+createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this)); // add an event listener for when load is completed
+createjs.Sound.registerSound(media.src, "music");
+function handleLoadComplete(event) {
+  //instance = createjs.Sound.play("music");
+}
+
+function play_handler(event) {
+  if(!media.playing) {
+    media.rec = createjs.Sound.play("music");
+    media.playing = true;
+  }
+}
+
+function pause_handler(event) {
+  if(media.rec) {
+    if (media.paused) {
+      media.rec.resume();
+      media.paused = false;
+    } else {
+      media.rec.pause();
+      media.paused = true;
+    }
+  }
+}
+
+function stop_handler(event) {
+  if(media && media.playing) {
+    media.rec.stop();
+    media.playing = false;
+  }
 }
 
 function clickThumbnail(event){

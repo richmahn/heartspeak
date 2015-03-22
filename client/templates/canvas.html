@@ -2,6 +2,15 @@
     <div class="page canvasPage">
         {{> nav title='Sketch' black=true}}
 
+      <div class="media_controls">
+        <br />
+        <br />
+          <img class="play" src="/img/app/ic_play_arrow_black_48dp.png" />
+          <img class="pause" src="/img/app/ic_pause_black_48dp.png" />
+          <img class="stop" src="/img/app/ic_stop_black_48dp.png" />
+          <br />
+      </div>
+
         <div class="thumbnails">
             {{#each sketches}}
                 <img src="{{this.url}}" height="75" class="thumbnail" />
@@ -17,13 +26,8 @@
 
 
         <div class="footer">
-            <div>
-                <img class="play" src="/img/app/ic_play_arrow_black_48dp.png" />
-                <img class="pause" src="/img/app/ic_pause_black_48dp.png" />
-                <img class="stop" src="/img/app/ic_stop_black_48dp.png" />
                 <img class="save" src="/img/app/ic_arrow_forward_black_48dp.png" />
                 <br />
-            </div>
         </div>
     </div>
 </template>

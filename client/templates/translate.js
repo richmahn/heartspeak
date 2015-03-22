@@ -24,8 +24,10 @@ Template.translate.events({
 });
 
 function play_handler(event) {
-  var src = "myrecording.amr";
-  var mediaRec = new Media(src,
+  var src = media.src;
+  var mediaRec = new Media(
+
+    src,
 
     // success callback
     function () {
