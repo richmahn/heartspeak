@@ -11,7 +11,15 @@ if (Meteor.isClient) {
 }
 
 Template.canvas.onRendered(function() {
-    newCanvas();
+  newCanvas();
+  media.row = ChunkList.find({chunk: '4_21'}).fetch()[0];
+  media.src = media.path + '/' + media.row.src;
+  createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
+  createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this)); // add an event listener for when load is completed
+  createjs.Sound.registerSound(media.src, "music");
+  function handleLoadComplete(event) {
+    //instance = createjs.Sound.play("music");
+  }
 });
 
 Template.canvas.events({
@@ -28,25 +36,43 @@ var media = {
   length: 0,
   paintSweep: 500,
   odometer: 0,
-  src: "/audio/esv/B04___01_John________ENGESVN2DA.mp3"
+  path: '/audio/esv'
 };
 
-createjs.Sound.alternateExtensions = ["mp3"];	// add other extensions to try loading if the src file extension is not supported
-createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoadComplete, this)); // add an event listener for when load is completed
-createjs.Sound.registerSound(media.src, "music");
-function handleLoadComplete(event) {
-  //instance = createjs.Sound.play("music");
+var timer = setInterval(
+  function() {
+     if(media.playing && !media.paused && media.rec.getPosition() >= media.msEnd) {
+       media.rec.stop();
+       media.playing = false;
+     }
+   },
+  500
+);
+
+function theFacts() {
+  var obj = {
+    playing: media.playing,
+    paused: media.paused,
+    msStart: media.msStart,
+    msEnd: media.msEnd,
+    row: media.row
+  };
+  console.log(obj);
 }
 
 function play_handler(event) {
   if(!media.playing) {
     media.rec = createjs.Sound.play("music");
+    media.msStart = media.row.start * 1000;
+    media.msEnd = (media.row.end * 1000) || media.rec.getDuration();
+    media.rec.setPosition(media.row.start * 1000);
     media.playing = true;
+    theFacts();
   }
 }
 
 function pause_handler(event) {
-  if(media.rec) {
+  if(media.rec && media.playing) {
     if (media.paused) {
       media.rec.resume();
       media.paused = false;
@@ -54,6 +80,7 @@ function pause_handler(event) {
       media.rec.pause();
       media.paused = true;
     }
+    theFacts();
   }
 }
 
@@ -62,6 +89,7 @@ function stop_handler(event) {
     media.rec.stop();
     media.playing = false;
   }
+  theFacts();
 }
 
 function clickThumbnail(event){
